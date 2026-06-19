@@ -1,53 +1,14 @@
-name: Reusable Node.js Build & Deploy
-
-on:
-  workflow_call:
-    inputs:
-      node_version:
-        required: true
-        type: string
-        description: "The version of Node.js to use"
-
 jobs:
-  build-test-deploy:
+  deploy-staging:
+    if: github.ref == 'refs/heads/develop' # Only run for the develop branch
+    environment: staging
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - run: echo "Deploying to Staging..."
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ inputs.node_version }}
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Run Unit Tests
-        run: npm test
-
-      - name: Build Application
-        run: npm run build
-
-      - name: Deploy to Production
-        id: deploy_step
-        run: ./deploy.sh
-
-      # Executes only if any previous step fails
-      - name: Send Slack Alert
-        if: failure()
-        run: |
-          ./send-slack-alert.sh "Production deployment failed. Immediate attention required."
-
-      # Executes only if deployment step failed
-      - name: Automatic Rollback
-        if: failure() && steps.deploy_step.outcome == 'failure'
-        run: |
-          ./rollback-to-previous-version.sh
-
-      # Optional Success Notification
-      - name: Deployment Success Notification
-        if: success()
-        run: |
-          echo "Deployment completed successfully"
+  deploy-production:
+    if: github.ref == 'refs/heads/main' # Only run for the main branch
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying to Production..."
