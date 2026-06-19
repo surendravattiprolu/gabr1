@@ -30,7 +30,7 @@ jobs:
 
       - name: Execute Core Deployment Matrix Logic
         id: do_deploy
-        run: ./scripts/deply.sh
+        run: ./scripts/deploy.sh
 
       - name: Propagate Final Pipeline Output States
         id: capture-state
