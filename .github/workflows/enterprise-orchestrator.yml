@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  analyze:
+  codeql:
     name: Analyze
     runs-on: ubuntu-latest
 
