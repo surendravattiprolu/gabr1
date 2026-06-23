@@ -1,7 +1,8 @@
 name:   DOCKER-PIPELINE
+
 on: 
-push:
-  branch: master
+  push:
+     branch: master
 
 env:
   image: swiggy:v1
