@@ -21,6 +21,12 @@ jobs:
  
       - name: test
         run: npm test
+      -name: artifact
+        uses: actions/upload-artifact@v7 
+        with:
+         name:artifact-1
+         path:|
+          pcakage*
  
       - name: Deploy
         run: echo "code is deployed"
